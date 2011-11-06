@@ -1,0 +1,48 @@
+<!DOCTYPE html>  <html> <head>   <title>class.blog_manager.coffee</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="rocco.css" /> </head> <body> <div id="navbar">     <h3>Molly.js - The real hacker's way to blog<em></em></h3>   </div>   <div id="container">     <div id="background"></div>            <div id="jump_to">         Jump To &hellip;         <div id="jump_wrapper">           <div id="jump_page">           <a class="source" href="index.html">Index</a>                                           <a class="source" href="class.blog_manager.html">                 class.blog_manager.coffee               </a>                                           <a class="source" href="class.configurator.html">                 class.configurator.coffee               </a>                                           <a class="source" href="class.entry.html">                 class.entry.coffee               </a>                                           <a class="source" href="class.server.html">                 class.server.coffee               </a>                                           <a class="source" href="io.html">                 io.coffee               </a>                                           <a class="source" href="molly.html">                 molly.coffee               </a>                        </div>         </div>       </div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               class.blog_manager.coffee             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>                            </td>             <td class="code">               <div class="highlight"><pre><span class="nv">_ = </span>      <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;underscore&#39;</span><span class="p">)</span>
+<span class="nv">fs = </span>     <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;fs&#39;</span><span class="p">)</span>
+<span class="nv">oauth = </span>  <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;oauth&#39;</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nx">BlogManager</span>
+
+  <span class="nv">constructor: </span><span class="nf">(options) -&gt;</span>
+    <span class="vi">@configurator = </span><span class="k">new</span> <span class="nx">Molly</span><span class="p">.</span><span class="nx">Configurator</span><span class="p">()</span>
+
+
+  <span class="nv">get_uid: </span><span class="nf">(callback) -&gt;</span>
+    <span class="nv">config = </span><span class="nx">@configurator</span><span class="p">.</span><span class="nx">config</span>
+    <span class="nv">oauth = </span><span class="nx">@configurator</span><span class="p">.</span><span class="nx">oauth</span>
+    <span class="nx">oauth</span><span class="p">.</span><span class="nx">getProtectedResource</span> <span class="s2">&quot;https://api.dropbox.com/1/account/info&quot;</span><span class="p">,</span> <span class="s2">&quot;GET&quot;</span><span class="p">,</span> <span class="nx">config</span><span class="p">.</span><span class="nx">oauth_access_token</span><span class="p">,</span> <span class="nx">config</span><span class="p">.</span><span class="nx">oauth_access_token_secret</span><span class="p">,</span> <span class="nf">(error, data, response) -&gt;</span>
+      <span class="nv">data = </span><span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span>
+      <span class="nx">callback</span><span class="p">(</span><span class="nx">data</span><span class="p">.</span><span class="nx">uid</span><span class="p">)</span> <span class="k">if</span> <span class="nx">callback</span><span class="o">?</span>
+
+
+  <span class="nv">list_files: </span><span class="nf">(path, callback) -&gt;</span>
+    <span class="nv">config = </span><span class="nx">@configurator</span><span class="p">.</span><span class="nx">config</span>
+    <span class="nv">oauth = </span><span class="nx">@configurator</span><span class="p">.</span><span class="nx">oauth</span>
+    <span class="nx">oauth</span><span class="p">.</span><span class="nx">getProtectedResource</span> <span class="s2">&quot;https://api.dropbox.com/1/metadata/sandbox#{path}&quot;</span><span class="p">,</span> <span class="s2">&quot;GET&quot;</span><span class="p">,</span> <span class="nx">config</span><span class="p">.</span><span class="nx">oauth_access_token</span><span class="p">,</span> <span class="nx">config</span><span class="p">.</span><span class="nx">oauth_access_token_secret</span><span class="p">,</span> <span class="nf">(error, data, response) -&gt;</span>
+      <span class="nv">data = </span><span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span>
+      <span class="nx">callback</span><span class="p">(</span><span class="nx">data</span><span class="p">.</span><span class="nx">contents</span><span class="p">)</span> <span class="k">if</span> <span class="nx">callback</span><span class="o">?</span>
+      
+      
+  <span class="nv">get_file: </span><span class="nf">(path, callback) -&gt;</span>
+    <span class="nv">config = </span><span class="nx">@configurator</span><span class="p">.</span><span class="nx">config</span>
+    <span class="nv">oauth = </span><span class="nx">@configurator</span><span class="p">.</span><span class="nx">oauth</span>
+    <span class="nx">oauth</span><span class="p">.</span><span class="nx">getProtectedResource</span> <span class="s2">&quot;https://api-content.dropbox.com/1/files/sandbox#{path}&quot;</span><span class="p">,</span> <span class="s2">&quot;GET&quot;</span><span class="p">,</span> <span class="nx">config</span><span class="p">.</span><span class="nx">oauth_access_token</span><span class="p">,</span> <span class="nx">config</span><span class="p">.</span><span class="nx">oauth_access_token_secret</span><span class="p">,</span> <span class="nf">(error, data, response) -&gt;</span>
+      <span class="nx">callback</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="k">if</span> <span class="nx">callback</span><span class="o">?</span>
+
+
+  <span class="nv">list_entries: </span><span class="nf">(callback) -&gt;</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">list_files</span> <span class="s2">&quot;/entries&quot;</span><span class="p">,</span> <span class="p">(</span><span class="nx">configs</span><span class="p">)</span> <span class="o">=&gt;</span>
+      <span class="nv">entries = </span><span class="p">[]</span>
+      <span class="nv">total = </span><span class="nx">configs</span><span class="p">.</span><span class="nx">length</span>
+      <span class="nv">current = </span><span class="mi">0</span>
+      <span class="nx">_</span><span class="p">.</span><span class="nx">each</span> <span class="nx">configs</span><span class="p">,</span> <span class="p">(</span><span class="nx">config</span><span class="p">)</span> <span class="o">=&gt;</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">get_file</span> <span class="s2">&quot;#{config.path}&quot;</span><span class="p">,</span> <span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="o">=&gt;</span>
+          <span class="nx">entries</span><span class="p">.</span><span class="nx">push</span> <span class="k">new</span> <span class="nx">Entry</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span>
+          <span class="nx">current</span><span class="o">++</span>
+          <span class="nx">callback</span><span class="p">(</span><span class="nx">entries</span><span class="p">)</span> <span class="k">if</span> <span class="nx">callback</span><span class="o">?</span> <span class="o">&amp;&amp;</span> <span class="nx">current</span> <span class="o">==</span> <span class="nx">total</span>
+
+
+<span class="nv">Molly = </span><span class="nx">_</span><span class="p">.</span><span class="nx">extend</span><span class="p">({},</span> <span class="nx">Molly</span><span class="p">,</span> <span class="p">{</span><span class="nv">BlogManager: </span><span class="nx">BlogManager</span><span class="p">})</span>
+
+</pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 

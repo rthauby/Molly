@@ -1,0 +1,62 @@
+<!DOCTYPE html>  <html> <head>   <title>class.configurator.coffee</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="rocco.css" /> </head> <body> <div id="navbar">     <h3>Molly.js - The real hacker's way to blog<em></em></h3>   </div>   <div id="container">     <div id="background"></div>            <div id="jump_to">         Jump To &hellip;         <div id="jump_wrapper">           <div id="jump_page">           <a class="source" href="index.html">Index</a>                                           <a class="source" href="class.blog_manager.html">                 class.blog_manager.coffee               </a>                                           <a class="source" href="class.configurator.html">                 class.configurator.coffee               </a>                                           <a class="source" href="class.entry.html">                 class.entry.coffee               </a>                                           <a class="source" href="class.server.html">                 class.server.coffee               </a>                                           <a class="source" href="io.html">                 io.coffee               </a>                                           <a class="source" href="molly.html">                 molly.coffee               </a>                        </div>         </div>       </div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               class.configurator.coffee             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>                            </td>             <td class="code">               <div class="highlight"><pre><span class="nv">_ = </span>      <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;underscore&#39;</span><span class="p">)</span>
+<span class="nv">fs = </span>     <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;fs&#39;</span><span class="p">)</span>
+<span class="nv">oauth = </span>  <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;oauth&#39;</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nx">Configurator</span>
+
+  <span class="nv">constructor: </span><span class="nf">(options) -&gt;</span>
+    <span class="k">if</span> <span class="nx">options</span><span class="o">?</span>
+      <span class="vi">@config = </span><span class="nx">options</span><span class="p">.</span><span class="nx">config</span> <span class="k">if</span> <span class="nx">options</span><span class="p">.</span><span class="nx">config</span><span class="o">?</span>
+    <span class="k">else</span>
+      <span class="vi">@config = </span><span class="k">this</span><span class="p">.</span><span class="nx">read_config</span><span class="p">()</span>
+    <span class="vi">@oauth = </span><span class="k">new</span> <span class="nx">oauth</span><span class="p">.</span><span class="nx">OAuth</span><span class="p">(</span><span class="s2">&quot;https://api.dropbox.com/1/oauth/request_token&quot;</span><span class="p">,</span> <span class="s2">&quot;https://api.dropbox.com/1/oauth/access_token&quot;</span><span class="p">,</span> <span class="nx">@config</span><span class="p">.</span><span class="nx">app_key</span><span class="p">,</span> <span class="nx">@config</span><span class="p">.</span><span class="nx">app_secret</span><span class="p">,</span> <span class="s2">&quot;1.0&quot;</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="s2">&quot;HMAC-SHA1&quot;</span><span class="p">)</span>
+
+
+  <span class="nv">read_config: </span><span class="o">-&gt;</span>
+    <span class="nv">config_str = </span><span class="nx">fs</span><span class="p">.</span><span class="nx">readFileSync</span><span class="p">(</span><span class="s2">&quot;config.json&quot;</span><span class="p">).</span><span class="nx">toString</span><span class="p">()</span>
+    <span class="nv">config = </span><span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">config_str</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nx">config</span>
+
+
+  <span class="nv">write_config: </span><span class="o">-&gt;</span>
+    <span class="nv">config_str = </span><span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">@config</span><span class="p">)</span>
+    <span class="nx">fs</span><span class="p">.</span><span class="nx">writeFileSync</span> <span class="s2">&quot;config.json&quot;</span><span class="p">,</span> <span class="nx">config_str</span>
+
+
+  <span class="nv">get_access_token: </span><span class="o">=&gt;</span>
+    <span class="nx">@oauth</span><span class="p">.</span><span class="nx">getOAuthRequestToken</span> <span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">token</span><span class="p">,</span> <span class="nx">token_secret</span><span class="p">,</span> <span class="nx">parsedQueryString</span><span class="p">)</span> <span class="o">=&gt;</span>
+      <span class="k">if</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+        <span class="nx">sys</span><span class="p">.</span><span class="nx">puts</span><span class="p">(</span><span class="s1">&#39;error :&#39;</span> <span class="o">+</span> <span class="nx">err</span><span class="p">)</span>
+      <span class="k">else</span>
+        <span class="nv">parsed_url = </span><span class="nx">@oauth</span><span class="p">.</span><span class="nx">signUrl</span><span class="p">(</span><span class="s2">&quot;https://www.dropbox.com/1/oauth/authorize&quot;</span><span class="p">,</span> <span class="nx">token</span><span class="p">,</span>  <span class="nx">token_secret</span><span class="p">,</span> <span class="s2">&quot;GET&quot;</span><span class="p">)</span>
+        <span class="nx">Molly</span><span class="p">.</span><span class="nx">IO</span><span class="p">.</span><span class="nx">bark</span> <span class="s2">&quot;Would you kindly go to the following URL and authorize the app? When you&#39;re done, just hit ENTER. I&#39;ll wait right here&quot;</span>
+        <span class="nx">Molly</span><span class="p">.</span><span class="nx">IO</span><span class="p">.</span><span class="nx">ask</span> <span class="s2">&quot;#{parsed_url}&quot;</span><span class="p">,</span> <span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="o">=&gt;</span>
+          <span class="nx">@oauth</span><span class="p">.</span><span class="nx">getOAuthAccessToken</span> <span class="nx">token</span><span class="p">,</span> <span class="nx">token_secret</span><span class="p">,</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">oauth_access_token</span><span class="p">,</span> <span class="nx">oauth_access_token_secret</span><span class="p">,</span> <span class="nx">results2</span><span class="p">)</span> <span class="o">=&gt;</span>
+            <span class="k">if</span><span class="p">(</span><span class="nx">error</span><span class="p">)</span>
+              <span class="nx">Molly</span><span class="p">.</span><span class="nx">IO</span><span class="p">.</span><span class="nx">bark</span> <span class="s2">&quot;Ay, there was a problem: #{sys.inspect(error)}&quot;</span>
+            <span class="k">else</span> <span class="k">if</span> <span class="o">!</span><span class="nx">_</span><span class="p">.</span><span class="nx">isEmpty</span><span class="p">(</span><span class="nx">oauth_access_token</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="nx">_</span><span class="p">.</span><span class="nx">isEmpty</span><span class="p">(</span><span class="nx">oauth_access_token_secret</span><span class="p">)</span>
+                <span class="vi">@config = </span><span class="p">{</span>
+                  <span class="s2">&quot;oauth_access_token&quot;</span><span class="o">:</span>         <span class="nx">oauth_access_token</span><span class="p">,</span>
+                  <span class="s2">&quot;oauth_access_token_secret&quot;</span><span class="o">:</span>  <span class="nx">oauth_access_token_secret</span>
+                  <span class="s2">&quot;app_key&quot;</span><span class="o">:</span>                    <span class="nx">@config</span><span class="p">.</span><span class="nx">app_key</span>
+                  <span class="s2">&quot;app_secret&quot;</span><span class="o">:</span>                 <span class="nx">@config</span><span class="p">.</span><span class="nx">app_secret</span>
+                <span class="p">}</span>
+                <span class="k">this</span><span class="p">.</span><span class="nx">write_config</span><span class="p">()</span>
+                <span class="nx">Molly</span><span class="p">.</span><span class="nx">IO</span><span class="p">.</span><span class="nx">bark</span> <span class="s2">&quot;I saved the config file as config.json&quot;</span>
+            <span class="nx">process</span><span class="p">.</span><span class="nx">exit</span><span class="p">()</span>
+
+<span class="nv">Molly = </span><span class="nx">_</span><span class="p">.</span><span class="nx">extend</span><span class="p">({},</span> <span class="nx">Molly</span><span class="p">,</span> <span class="p">{</span><span class="nv">Configurator: </span><span class="nx">Configurator</span><span class="p">})</span>
+
+<span class="nv">Molly.Configurator::configure = </span><span class="o">-&gt;</span>
+  <span class="nx">Molly</span><span class="p">.</span><span class="nx">IO</span><span class="p">.</span><span class="nx">ask</span> <span class="s2">&quot;What&#39;s your dropbox app key?&quot;</span><span class="p">,</span> <span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="o">=&gt;</span>
+    <span class="nv">app_key = </span><span class="nx">data</span>
+    <span class="nx">Molly</span><span class="p">.</span><span class="nx">IO</span><span class="p">.</span><span class="nx">ask</span> <span class="s2">&quot;What&#39;s your dropbox app secret?&quot;</span><span class="p">,</span> <span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="o">=&gt;</span>
+      <span class="nv">app_secret = </span><span class="nx">data</span>
+      <span class="nv">config = </span><span class="p">{</span>
+        <span class="nv">app_key: </span><span class="nx">app_key</span>
+        <span class="nv">app_secret: </span><span class="nx">app_secret</span>
+      <span class="p">}</span>
+      <span class="nv">configurator = </span><span class="k">new</span> <span class="nx">Molly</span><span class="p">.</span><span class="nx">Configurator</span><span class="p">({</span><span class="nv">config: </span><span class="nx">config</span><span class="p">})</span>
+      <span class="nx">configurator</span><span class="p">.</span><span class="nx">get_access_token</span><span class="p">()</span>
+
+</pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 
