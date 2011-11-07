@@ -1,0 +1,97 @@
+/* line 1, ../sass/molly.scss */
+body {
+  font-size: 16px;
+  line-height: 24px;
+  background: white url("bg.png");
+  color: #252519;
+  font-family: "Palatino Linotype", "Book Antiqua", Palatino, FreeSerif, serif;
+  padding: 0 0 50px 50px;
+}
+
+/* line 9, ../sass/molly.scss */
+div.container {
+  width: 720px;
+  margin: 50px 0 50px 50px;
+}
+
+/* line 13, ../sass/molly.scss */
+p {
+  width: 550px;
+}
+
+/* line 16, ../sass/molly.scss */
+#documentation p {
+  margin-bottom: 4px;
+}
+
+/* line 19, ../sass/molly.scss */
+a, a:visited {
+  padding: 0 2px;
+  text-decoration: none;
+  background: #dbe6f3;
+  color: #3f6fa5;
+}
+
+/* line 25, ../sass/molly.scss */
+a:active, a:hover {
+  color: #dbe6f3;
+  background: #3f6fa5;
+}
+
+/* line 29, ../sass/molly.scss */
+h1, h2, h3, h4, h5, h6 {
+  margin-top: 40px;
+  width: 550px;
+  line-height: 1.25em;
+}
+
+/* line 34, ../sass/molly.scss */
+b.header {
+  font-size: 18px;
+}
+
+/* line 37, ../sass/molly.scss */
+span.alias {
+  font-size: 14px;
+  font-style: italic;
+  margin-left: 20px;
+}
+
+/* line 42, ../sass/molly.scss */
+table, tr, td {
+  margin: 0;
+  padding: 0;
+}
+
+/* line 45, ../sass/molly.scss */
+td {
+  padding: 2px 12px 2px 0;
+}
+
+/* line 48, ../sass/molly.scss */
+ul {
+  list-style-type: circle;
+  padding: 0 0 0 20px;
+}
+
+/* line 52, ../sass/molly.scss */
+li {
+  width: 500px;
+  margin-bottom: 10px;
+}
+
+/* line 56, ../sass/molly.scss */
+code, pre, tt {
+  font-family: Monaco, Consolas, "Lucida Console", monospace;
+  font-size: 12px;
+  line-height: 18px;
+  color: #555529;
+}
+
+/* line 62, ../sass/molly.scss */
+pre {
+  font-size: 12px;
+  padding: 2px 0 2px 12px;
+  border-left: 6px solid #aaaa99;
+  margin: 0px 0 30px;
+}

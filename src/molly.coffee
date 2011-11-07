@@ -11,7 +11,8 @@ program
 program.parse(process.argv)
 
 if program.server
-  bg = new Molly.BlogManager()
-  server = new Molly.BlogServer({blog_manager: bg})
+  bg = new BlogManager()
+  server = new BlogServer({blog_manager: bg})
 else if program.configure
-  Molly.Configurator::configure()
+  configurator = new Configurator()
+  configurator.configure()

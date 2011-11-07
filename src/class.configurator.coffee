@@ -45,16 +45,16 @@ class Configurator
                 Molly.IO.bark "I saved the config file as config.json"
             process.exit()
 
-Molly = _.extend({}, Molly, {Configurator: Configurator})
 
-Molly.Configurator::configure = ->
-  Molly.IO.ask "What's your dropbox app key?", (data) =>
-    app_key = data
-    Molly.IO.ask "What's your dropbox app secret?", (data) =>
-      app_secret = data
-      config = {
-        app_key: app_key
-        app_secret: app_secret
-      }
-      configurator = new Molly.Configurator({config: config})
-      configurator.get_access_token()
+  configure: ->
+    Molly.IO.ask "What's your dropbox app key?", (data) =>
+      app_key = data
+      Molly.IO.ask "What's your dropbox app secret?", (data) =>
+        app_secret = data
+        config = {
+          app_key: app_key
+          app_secret: app_secret
+        }
+        this.get_access_token()
+
+module.exports = Configurator

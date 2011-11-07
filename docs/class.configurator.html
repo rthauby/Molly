@@ -45,18 +45,18 @@
                 <span class="nx">Molly</span><span class="p">.</span><span class="nx">IO</span><span class="p">.</span><span class="nx">bark</span> <span class="s2">&quot;I saved the config file as config.json&quot;</span>
             <span class="nx">process</span><span class="p">.</span><span class="nx">exit</span><span class="p">()</span>
 
-<span class="nv">Molly = </span><span class="nx">_</span><span class="p">.</span><span class="nx">extend</span><span class="p">({},</span> <span class="nx">Molly</span><span class="p">,</span> <span class="p">{</span><span class="nv">Configurator: </span><span class="nx">Configurator</span><span class="p">})</span>
 
-<span class="nv">Molly.Configurator::configure = </span><span class="o">-&gt;</span>
-  <span class="nx">Molly</span><span class="p">.</span><span class="nx">IO</span><span class="p">.</span><span class="nx">ask</span> <span class="s2">&quot;What&#39;s your dropbox app key?&quot;</span><span class="p">,</span> <span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="o">=&gt;</span>
-    <span class="nv">app_key = </span><span class="nx">data</span>
-    <span class="nx">Molly</span><span class="p">.</span><span class="nx">IO</span><span class="p">.</span><span class="nx">ask</span> <span class="s2">&quot;What&#39;s your dropbox app secret?&quot;</span><span class="p">,</span> <span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="o">=&gt;</span>
-      <span class="nv">app_secret = </span><span class="nx">data</span>
-      <span class="nv">config = </span><span class="p">{</span>
-        <span class="nv">app_key: </span><span class="nx">app_key</span>
-        <span class="nv">app_secret: </span><span class="nx">app_secret</span>
-      <span class="p">}</span>
-      <span class="nv">configurator = </span><span class="k">new</span> <span class="nx">Molly</span><span class="p">.</span><span class="nx">Configurator</span><span class="p">({</span><span class="nv">config: </span><span class="nx">config</span><span class="p">})</span>
-      <span class="nx">configurator</span><span class="p">.</span><span class="nx">get_access_token</span><span class="p">()</span>
+  <span class="nv">configure: </span><span class="o">-&gt;</span>
+    <span class="nx">Molly</span><span class="p">.</span><span class="nx">IO</span><span class="p">.</span><span class="nx">ask</span> <span class="s2">&quot;What&#39;s your dropbox app key?&quot;</span><span class="p">,</span> <span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="o">=&gt;</span>
+      <span class="nv">app_key = </span><span class="nx">data</span>
+      <span class="nx">Molly</span><span class="p">.</span><span class="nx">IO</span><span class="p">.</span><span class="nx">ask</span> <span class="s2">&quot;What&#39;s your dropbox app secret?&quot;</span><span class="p">,</span> <span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="o">=&gt;</span>
+        <span class="nv">app_secret = </span><span class="nx">data</span>
+        <span class="nv">config = </span><span class="p">{</span>
+          <span class="nv">app_key: </span><span class="nx">app_key</span>
+          <span class="nv">app_secret: </span><span class="nx">app_secret</span>
+        <span class="p">}</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">get_access_token</span><span class="p">()</span>
+
+<span class="nv">module.exports = </span><span class="nx">Configurator</span>
 
 </pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 

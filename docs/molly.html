@@ -11,9 +11,10 @@
 <span class="nx">program</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">process</span><span class="p">.</span><span class="nx">argv</span><span class="p">)</span>
 
 <span class="k">if</span> <span class="nx">program</span><span class="p">.</span><span class="nx">server</span>
-  <span class="nv">bg = </span><span class="k">new</span> <span class="nx">Molly</span><span class="p">.</span><span class="nx">BlogManager</span><span class="p">()</span>
-  <span class="nv">server = </span><span class="k">new</span> <span class="nx">Molly</span><span class="p">.</span><span class="nx">BlogServer</span><span class="p">({</span><span class="nv">blog_manager: </span><span class="nx">bg</span><span class="p">})</span>
+  <span class="nv">bg = </span><span class="k">new</span> <span class="nx">BlogManager</span><span class="p">()</span>
+  <span class="nv">server = </span><span class="k">new</span> <span class="nx">BlogServer</span><span class="p">({</span><span class="nv">blog_manager: </span><span class="nx">bg</span><span class="p">})</span>
 <span class="k">else</span> <span class="k">if</span> <span class="nx">program</span><span class="p">.</span><span class="nx">configure</span>
-  <span class="nx">Molly</span><span class="p">.</span><span class="nx">Configurator</span><span class="o">::</span><span class="nx">configure</span><span class="p">()</span>
+  <span class="nv">configurator = </span><span class="k">new</span> <span class="nx">Configurator</span><span class="p">()</span>
+  <span class="nx">configurator</span><span class="p">.</span><span class="nx">configure</span><span class="p">()</span>
 
 </pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 

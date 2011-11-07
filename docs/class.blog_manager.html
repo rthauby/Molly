@@ -5,7 +5,7 @@
 <span class="k">class</span> <span class="nx">BlogManager</span>
 
   <span class="nv">constructor: </span><span class="nf">(options) -&gt;</span>
-    <span class="vi">@configurator = </span><span class="k">new</span> <span class="nx">Molly</span><span class="p">.</span><span class="nx">Configurator</span><span class="p">()</span>
+    <span class="vi">@configurator = </span><span class="k">new</span> <span class="nx">Configurator</span><span class="p">()</span>
 
 
   <span class="nv">get_uid: </span><span class="nf">(callback) -&gt;</span>
@@ -38,11 +38,12 @@
       <span class="nv">current = </span><span class="mi">0</span>
       <span class="nx">_</span><span class="p">.</span><span class="nx">each</span> <span class="nx">configs</span><span class="p">,</span> <span class="p">(</span><span class="nx">config</span><span class="p">)</span> <span class="o">=&gt;</span>
         <span class="k">this</span><span class="p">.</span><span class="nx">get_file</span> <span class="s2">&quot;#{config.path}&quot;</span><span class="p">,</span> <span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="o">=&gt;</span>
-          <span class="nx">entries</span><span class="p">.</span><span class="nx">push</span> <span class="k">new</span> <span class="nx">Entry</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span>
+          <span class="nv">id = </span><span class="nx">config</span><span class="p">.</span><span class="nx">path</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">,</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+          <span class="nx">entries</span><span class="p">.</span><span class="nx">push</span> <span class="k">new</span> <span class="nx">Entry</span><span class="p">(</span><span class="nx">data</span><span class="p">,{</span><span class="nx">id</span><span class="o">:</span><span class="nx">id</span><span class="p">})</span>
           <span class="nx">current</span><span class="o">++</span>
           <span class="nx">callback</span><span class="p">(</span><span class="nx">entries</span><span class="p">)</span> <span class="k">if</span> <span class="nx">callback</span><span class="o">?</span> <span class="o">&amp;&amp;</span> <span class="nx">current</span> <span class="o">==</span> <span class="nx">total</span>
 
 
-<span class="nv">Molly = </span><span class="nx">_</span><span class="p">.</span><span class="nx">extend</span><span class="p">({},</span> <span class="nx">Molly</span><span class="p">,</span> <span class="p">{</span><span class="nv">BlogManager: </span><span class="nx">BlogManager</span><span class="p">})</span>
+<span class="nv">module.exports = </span><span class="nx">BlogManager</span>
 
 </pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 

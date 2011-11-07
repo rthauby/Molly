@@ -5,7 +5,7 @@ oauth =   require('oauth')
 class BlogManager
 
   constructor: (options) ->
-    @configurator = new Molly.Configurator()
+    @configurator = new Configurator()
 
 
   get_uid: (callback) ->
@@ -38,9 +38,10 @@ class BlogManager
       current = 0
       _.each configs, (config) =>
         this.get_file "#{config.path}", (data) =>
-          entries.push new Entry(data)
+          id = config.path.replace("/","")
+          entries.push new Entry(data,{id:id})
           current++
           callback(entries) if callback? && current == total
 
 
-Molly = _.extend({}, Molly, {BlogManager: BlogManager})
+module.exports = BlogManager
