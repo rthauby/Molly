@@ -1,3 +1,10 @@
 Cakefile
 config.json
 paige.config
+
+# OS generated files #
+######################
+.DS_Store*
+ehthumbs.db
+Icon?
+Thumbs.db
